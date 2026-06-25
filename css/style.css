@@ -734,6 +734,9 @@ a { text-decoration: none; color: inherit; }
 /* Botões com transição consistente */
 .btn-outline, .prof-social-btn, .pill { transition: all .25s ease; }
 
+/* Dica de rolagem da tabela: escondida por padrão (só no mobile) */
+.scroll-hint { display: none; }
+
 /* ===== RESPONSIVO ===== */
 
 /* Tablet e abaixo */
@@ -741,19 +744,25 @@ a { text-decoration: none; color: inherit; }
   .nav-toggle { display: flex; }
   .nav-menu {
     position: fixed;
-    top: 70px; right: 0;
+    top: 74px; right: 0;
     background: var(--azul);
     flex-direction: column;
-    width: 240px;
-    padding: 20px 24px;
-    gap: 4px;
+    width: min(280px, 80vw);
+    padding: 16px 24px 28px;
+    gap: 2px;
     transform: translateX(100%);
-    transition: transform .3s;
-    height: calc(100vh - 70px);
+    transition: transform .3s ease;
+    height: calc(100vh - 74px);
     box-shadow: -4px 0 18px rgba(0,0,0,.3);
+    overflow-y: auto;
   }
   .nav-menu.open { transform: translateX(0); }
-  .nav-link { padding: 12px 0; border-bottom: 1px solid rgba(255,255,255,.08); width: 100%; }
+  .nav-link {
+    padding: 15px 0;
+    border-bottom: 1px solid rgba(255,255,255,.08);
+    width: 100%;
+    font-size: 1rem;
+  }
   .nav-link::after { display: none; }
 
   .hero-scroll { display: none; }
@@ -764,13 +773,23 @@ a { text-decoration: none; color: inherit; }
   .form-row { grid-template-columns: 1fr; }
 
   .prof-hero-container { grid-template-columns: 1fr; }
-  .prof-hero-photo { min-height: 380px; }
-  .prof-hero-realimg { object-fit: cover; }
+  .prof-hero-photo { min-height: 420px; }
   .prof-hero-info { padding: 44px 28px; }
 
   /* Espaçamento de seção mais enxuto */
   .escudo, .programas, .horarios, .galeria, .contato { padding-top: 64px; padding-bottom: 64px; }
   .section-head { margin-bottom: 36px; }
+
+  /* Dica visual de que a tabela rola na horizontal */
+  .tabela-wrap { position: relative; }
+  .scroll-hint {
+    display: block;
+    text-align: center;
+    font-size: .82rem;
+    color: var(--cinza);
+    margin: 0 auto 14px;
+    font-style: italic;
+  }
 }
 
 /* Celular */
@@ -787,28 +806,46 @@ a { text-decoration: none; color: inherit; }
 @media (max-width: 480px) {
   .nav-container { padding: 12px 16px; }
   .logo-text { font-size: .9rem; }
+  .logo-img { width: 40px; height: 40px; }
 
-  .escudo, .programas, .horarios, .galeria, .contato { padding-left: 18px; padding-right: 18px; }
+  .escudo, .programas, .horarios, .galeria, .contato { padding-left: 16px; padding-right: 16px; }
   .section-desc { font-size: 1rem; }
 
-  .hero-subtitle { letter-spacing: 3px; }
-  .btn-outline { padding: 13px 28px; font-size: .88rem; }
+  /* Hero: lema confortável em tela estreita */
+  .hero-title { letter-spacing: .5px; }
+  .hero-subtitle { letter-spacing: 2px; font-size: .9rem; }
+  .btn-outline { padding: 14px 30px; font-size: .9rem; }
 
   /* Programas: 1 card por linha, mais baixos */
   .programas-grid { grid-template-columns: 1fr; }
-  .programa-card { min-height: 300px; }
-  .programa-num { font-size: 5.5rem; }
+  .programa-card { min-height: 280px; }
+  .programa-num { font-size: 5rem; }
+  .programa-info { padding: 20px; }
 
-  /* Galeria: 1 coluna no celular pra fotos maiores */
-  .galeria-grid { grid-template-columns: 1fr; }
+  /* Galeria: 2 colunas no celular (14 fotos em 1 coluna ficaria longo demais) */
+  .galeria-grid { grid-template-columns: 1fr 1fr; gap: 10px; }
+  .galeria-item { border-radius: 8px; }
+
+  /* Títulos um pouco menores e descrição mais justa */
+  .section-title-red, .section-title-dark { font-size: clamp(1.8rem, 8vw, 2.4rem); }
 
   .prof-hero-info { padding: 36px 22px; }
   .prof-hero-social { flex-wrap: wrap; }
-  .prof-social-btn { flex: 1; text-align: center; }
+  .prof-social-btn { flex: 1 1 100%; text-align: center; padding: 13px; }
 
   .contato-form { padding: 22px 18px; }
   .footer-content { gap: 10px; }
 
   /* WhatsApp menor pra não cobrir conteúdo */
   .whatsapp-float { width: 52px; height: 52px; bottom: 18px; right: 18px; }
+
+  /* Lightbox: legenda e contador mais compactos */
+  .lb-caption { font-size: .85rem; margin-top: 12px; }
+  .lb-close { top: 10px; right: 14px; font-size: 2.2rem; }
+}
+
+/* Telas muito estreitas (≤360px) */
+@media (max-width: 360px) {
+  .galeria-grid { grid-template-columns: 1fr; }
+  .logo-text small { font-size: .56rem; }
 }
